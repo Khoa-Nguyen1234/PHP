@@ -1,3 +1,6 @@
+<?php include('../config/constants.php'); ?>
+
+
 <html>
     <head>
         <title>Food Orfer Website - Home Page</title>
