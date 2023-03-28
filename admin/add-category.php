@@ -12,6 +12,12 @@
                     echo $_SESSION['add'];
                     unset($_SESSION['add']);
                 }
+
+                if(isset($_SESSION['upload']))
+                {
+                    echo $_SESSION['upload'];
+                    unset($_SESSION['upload']);
+                }
             ?>
 
             <!-- Add Category Form Start-->
@@ -87,9 +93,9 @@
                     }
 
                     //Check whether the image is selected or notand set the value for image name accordingly
-                    //print_r($_FILES['image']);
+                    // print_r($_FILES['image']);
 
-                    //die();//Break the code here
+                    // die(); //Break the code here
 
                     if(isset($_FILES['image']['name']))
                     {
@@ -97,7 +103,18 @@
                         //To upload image we need image name, source path and destination path
                         $image_name = $_FILES['image']['name'];
 
-                        $source_path = $_FILE['image']['tmp_name'];
+                        //Auto rename our image
+                        //To upload image we need image name, source path and destination path 
+                        $image_name = $_FILES['image']['name'];
+
+                        //Auto rename our image
+                        //Get the exetension of our image (jpg, png, gif, etc)  e.g. "specialfood1.jpg" 
+                        $ext = end(explode('.', $image_name));
+
+                        //Rename the image
+                        $image_name = "Food_Category_".rand(000, 999).'.'.$ext; //e.g. Food_Category_834.jpg
+
+                        $source_path = $_FILES['image']['tmp_name'];
 
                         $destination_path = "../images/category/".$image_name;
 
@@ -109,7 +126,11 @@
                         if($upload==false)
                         {
                             //Set message
-                            $_SESSION['upload'] = "<div class='error'>Failed to upload image.</div";
+                            $_SESSION['upload'] = "<div class='error'>Failed to upload image.</div>";
+                            //Redirect to add category page
+                            header('location:'.SITEURL.'admin/add-category.php');
+                            //Stop the process
+                            die();
                         }
                     }
                     else
@@ -121,6 +142,7 @@
                     //2. Create SQL Query to insert category into database
                     $sql = "INSERT INTO tbl_category SET
                         title='$title',
+                        image_name='$image_name',
                         featured='$featured',
                         active = '$active'
                     ";
