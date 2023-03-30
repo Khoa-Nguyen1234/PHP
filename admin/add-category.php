@@ -103,34 +103,39 @@
                         //To upload image we need image name, source path and destination path
                         $image_name = $_FILES['image']['name'];
 
-                        //Auto rename our image
-                        //To upload image we need image name, source path and destination path 
-                        $image_name = $_FILES['image']['name'];
-
-                        //Auto rename our image
-                        //Get the exetension of our image (jpg, png, gif, etc)  e.g. "specialfood1.jpg" 
-                        $ext = end(explode('.', $image_name));
-
-                        //Rename the image
-                        $image_name = "Food_Category_".rand(000, 999).'.'.$ext; //e.g. Food_Category_834.jpg
-
-                        $source_path = $_FILES['image']['tmp_name'];
-
-                        $destination_path = "../images/category/".$image_name;
-
-                        //Finally upload the image
-                        $upload = move_uploaded_file($source_path, $destination_path);
-
-                        //Check whether the image is uploaded or not
-                        //And if  the image is not uploaded then we will stop process and redirect with error message
-                        if($upload==false)
+                        //Upload the image only ìf image is selected
+                        if($image_name != "")
                         {
-                            //Set message
-                            $_SESSION['upload'] = "<div class='error'>Failed to upload image.</div>";
-                            //Redirect to add category page
-                            header('location:'.SITEURL.'admin/add-category.php');
-                            //Stop the process
-                            die();
+
+                            //Auto rename our image
+                            //To upload image we need image name, source path and destination path 
+                            $image_name = $_FILES['image']['name'];
+
+                            //Auto rename our image
+                            //Get the exetension of our image (jpg, png, gif, etc)  e.g. "specialfood1.jpg" 
+                            $ext = end(explode('.', $image_name));
+
+                            //Rename the image
+                            $image_name = "Food_Category_".rand(000, 999).'.'.$ext; //e.g. Food_Category_834.jpg
+
+                            $source_path = $_FILES['image']['tmp_name'];
+
+                            $destination_path = "../images/category/".$image_name;
+
+                            //Finally upload the image
+                            $upload = move_uploaded_file($source_path, $destination_path);
+
+                            //Check whether the image is uploaded or not
+                            //And if  the image is not uploaded then we will stop process and redirect with error message
+                            if($upload==false)
+                            {
+                                //Set message
+                                $_SESSION['upload'] = "<div class='error'>Failed to upload image.</div>";
+                                //Redirect to add category page
+                                header('location:'.SITEURL.'admin/add-category.php');
+                                //Stop the process
+                                die();
+                            }
                         }
                     }
                     else

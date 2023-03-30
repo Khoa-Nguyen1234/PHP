@@ -15,7 +15,7 @@
         if($image_name != "")
         {
             //Image is available. So remove it
-            $path = "../images/category".$image_name;
+            $path = "../images/category/".$image_name;
             //Remove the image
             $remove = unlink($path);
 
